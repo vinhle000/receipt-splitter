@@ -17,19 +17,19 @@ class receipt {
 
   // Format JSON to specific data
 
-  async retrieveItemsFromJson(x){
-    const data = sampleReceiptData.line_items;
+  async retrieveItemsFromJsonResponse(data){
+    const lineItems = data.line_items;
     const purchasedItems = [];
 
-    for(let i=0; i < data.length; i++ ) {
+    for(let i=0; i < lineItems.length; i++ ) {
 
       const purchasedItem = {
-        id: data[i].id,
-        name: data[i].description,
-        price: data[i].price,
-        qty: data[i].quantity,
-        itemTotal: data[i].total,
-        text: data[i].text,
+        id: lineItems[i].id,
+        name: lineItems[i].description,
+        price: lineItems[i].price,
+        qty: lineItems[i].quantity,
+        itemTotal: lineItems[i].total,
+        text: lineItems[i].text,
       };
       purchasedItems.push(
         purchasedItem
@@ -37,8 +37,18 @@ class receipt {
       )
     }
 
-    console.log(purchasedItems)
-    return data;
+    // console.log(purchasedItems)
+
+    const receiptInfo = {
+      date: data.date,
+      subtotal: data.subtotal,
+      total: data.total,
+      tax: data.tax,
+      tip: data.tip, /// might be null
+      purchasedItems: purchasedItems,
+      // ocrText: data.ocr_text,
+    }
+    return receiptInfo;
 
   }
   /*
@@ -66,4 +76,4 @@ class receipt {
 
 }
 
-module.exports = receipt;
+module.exports = new receipt();
