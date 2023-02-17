@@ -1,0 +1,488 @@
+{
+  "documentId": "416af975-7ac8-43d1-ae50-6c03fa0e6d08",
+  "documentStatus": "Completed",
+  "fileName": "58E31C90-85C5-47A1-82E3-88898B5B9C9F.jpeg",
+  "mimeType": "image/jpeg",
+  "documentType": "Receipts",
+  "confidenceScore": "High",
+  "formFields": [
+    {
+      "fieldName": "Transaction Date",
+      "value": "January 21, 2023",
+      "confidenceScore": "High",
+      "confidenceValue": 0.987,
+      "ocrConfidenceValue": 0.993
+    },
+    {
+      "fieldName": "Transaction Time",
+      "value": "12:17 PM",
+      "confidenceScore": "High",
+      "confidenceValue": 0.983,
+      "ocrConfidenceValue": 0.9955000000000002
+    },
+    {
+      "fieldName": "Merchant Name",
+      "value": "Harvest Wonton Noodle",
+      "confidenceScore": "Low",
+      "confidenceValue": 0.416,
+      "ocrConfidenceValue": 0.9953333333333333
+    },
+    {
+      "fieldName": "Merchant Full Address",
+      "value": "22931 Hwy 99\nEdmonds, WA",
+      "confidenceScore": "High",
+      "confidenceValue": 0.976,
+      "ocrConfidenceValue": 0.997
+    },
+    {
+      "fieldName": "Merchant Street Address",
+      "value": "22931 Hwy 99",
+      "confidenceScore": "High",
+      "confidenceValue": 0.976,
+      "ocrConfidenceValue": 0.997
+    },
+    {
+      "fieldName": "Merchant City",
+      "value": "Edmonds",
+      "confidenceScore": "High",
+      "confidenceValue": 0.976,
+      "ocrConfidenceValue": 0.997
+    },
+    {
+      "fieldName": "Merchant State",
+      "value": "WA",
+      "confidenceScore": "High",
+      "confidenceValue": 0.976,
+      "ocrConfidenceValue": 0.997
+    },
+    {
+      "fieldName": "Subtotal",
+      "value": "$168.00",
+      "confidenceScore": "High",
+      "confidenceValue": 0.987,
+      "ocrConfidenceValue": 0.995
+    },
+    {
+      "fieldName": "Total Tax",
+      "value": "$17.64",
+      "confidenceScore": "High",
+      "confidenceValue": 0.986,
+      "ocrConfidenceValue": 0.996
+    },
+    {
+      "fieldName": "Total",
+      "value": "$185.64",
+      "confidenceScore": "High",
+      "confidenceValue": 0.974,
+      "ocrConfidenceValue": 0.995
+    }
+  ],
+  "tables": [
+    {
+      "tableName": "Items",
+      "confidenceScore": "Low",
+      "rows": [
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Beef Brisket Noodle Soup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.99175
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$13.50",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Wonton Noodle Soup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9943333333333334
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$14.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.991
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Dan Dan Noodles",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9956666666666666
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$13.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.992
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Wonton Noodle Soup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9936666666666666
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "2",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.995
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$24.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Fish Ball or Squid Ball Noodle\nSoup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9901428571428572
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$13.50",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Spicy Wonton",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.997
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "2",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.995
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$26.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.991
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Wonton Noodle Soup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9943333333333334
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$12.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9940000000000001
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Preserved Egg & Pork Congee",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9942
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "2",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.995
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$24.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.995
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Wonton Noodle Soup",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.9940000000000001
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$12.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "columnName": "Description",
+              "value": "Chow Fun",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            },
+            {
+              "columnName": "Category",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Date",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Price",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Quantity",
+              "value": "",
+              "confidenceScore": "Low",
+              "ocrConfidenceValue": 0
+            },
+            {
+              "columnName": "Total Price",
+              "value": "$16.00",
+              "confidenceScore": "High",
+              "ocrConfidenceValue": 0.993
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

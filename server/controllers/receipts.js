@@ -1,4 +1,4 @@
-const sampleReceiptData = require('../files/sampleData.json') // SampleData from meal receipt
+const sampleReceiptData = require('../files/sampleButler.json') // SampleData from meal receipt
 
 
 class receipt {
