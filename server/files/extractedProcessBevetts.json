@@ -1,0 +1,105 @@
+{
+  "Transaction Date": "6/9/22",
+  "Transaction Time": "10:30 PM",
+  "Arrival Date": "",
+  "Departure Date": "",
+  "Merchant Name": "BAVETTES\nbar & boeuf",
+  "Merchant Phone Number": "",
+  "Merchant Full Address": "218 W Kinzie Chicago, IL 60654",
+  "Merchant Street Address": "218 W Kinzie",
+  "Merchant City": "Chicago",
+  "Merchant State": "IL",
+  "Merchant ZIP Code": "60654",
+  "Merchant Country/Region": "",
+  "Currency": "",
+  "Subtotal": "$444.18",
+  "Total Tax": "$52.17",
+  "Tip": "",
+  "Total": "$496.35",
+  "purchasedItems": [
+    {
+      "description": "Pearl E",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$11.85"
+    },
+    {
+      "description": "Disco Hama W",
+      "price": "",
+      "quantity": "3",
+      "totalPrice": "$11.85"
+    },
+    {
+      "description": "",
+      "price": "",
+      "quantity": "3",
+      "totalPrice": ""
+    },
+    {
+      "description": "Dry-Aged Bone-In Ribeye",
+      "price": "",
+      "quantity": "2",
+      "totalPrice": "$199.90"
+    },
+    {
+      "description": "Ribeye Steak Frites",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$35.95"
+    },
+    {
+      "description": "Traditional Filet Mignon",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$77.90"
+    },
+    {
+      "description": "Brussel Sprouts",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$15.95"
+    },
+    {
+      "description": "Truffle Mac & Cheese",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$15.95"
+    },
+    {
+      "description": "Buttery Mashed Potatoes",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$14.95"
+    },
+    {
+      "description": "Pommes Frites",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$10.95"
+    },
+    {
+      "description": "Manhattan - House",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$14.00"
+    },
+    {
+      "description": "Coffee",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$5.00"
+    },
+    {
+      "description": "Elijah Craig OF",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$15.95"
+    },
+    {
+      "description": "Restaurant Surcharge (3.25%)",
+      "price": "",
+      "quantity": "",
+      "totalPrice": "$13.98"
+    }
+  ]
+}

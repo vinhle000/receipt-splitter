@@ -1,3 +1,4 @@
+const butlerWrapper = require('./butlerWrapper')
 const sampleReceiptData = require('../files/sampleButler.json') // SampleData from meal receipt
 
 
@@ -7,13 +8,68 @@ class receipt {
     //Download from GET request
   }
 
-  extractJsonFromImage(filePath) {
-    // use VeriFy API to send document file
-    // const data = JSON.parse(filePath);
+  async extractInfoFromImage(filePath) {
+    console.log('FILE PATHS : ', filePath)
+    let receiptInfo = {};
+    let purchasedItems = [];
+    try{
+      const uploadID = await butlerWrapper.uploadFiles(filePath)
+      const extractionResults = await butlerWrapper.getExtractionResults(uploadID);
 
-    const data = sampleReceiptData;
-    return data;
+      extractionResults.items.forEach(documentResult => {
+      const fileName = documentResult.fileName;
+
+      documentResult.formFields.forEach(field => {
+        const fieldName = field.fieldName;
+        const extractedValue = field.value;
+
+        receiptInfo[fieldName] = extractedValue;
+      });
+
+      documentResult.tables.forEach(table => {
+
+        if (table.tableName === 'Items') {
+          //Table Item (food)
+          table.rows.forEach(row => {
+            let purchasedItem = {}
+            // Each column of item
+            row.cells.forEach(cell => {
+              // REFACTOR: Add confidenc level before creation
+                  //"confidenceScore":"High"
+                  //"ocrConfidenceValue":0.9956666666666666
+              switch (cell.columnName) {
+                case 'Description':
+                  purchasedItem.description = cell.value;
+                  break;
+                case 'Quantity':
+                  purchasedItem.quantity = cell.value;
+                  break;
+                case 'Price':
+                  purchasedItem.price = cell.value;
+                  break;
+                case 'Total Price':
+                  purchasedItem.totalPrice = cell.value;
+                  break;
+
+                default:
+                  console.log('Non added item column: ', cell.columnName )
+              }
+            });
+            purchasedItems.push(purchasedItem)
+          })
+        }
+      })
+
+    })
+    receiptInfo.purchasedItems = purchasedItems;
+    console.log('Extracted Results : \n', JSON.stringify(receiptInfo) )
+    return receiptInfo
+  } catch (error) {
+    console.error('error extractingInfo ', error)
   }
+
+  }
+
 
   // Format JSON to specific data
 
@@ -73,7 +129,38 @@ class receipt {
   currency:
   */
 
+//   Merchant Name : Fern Thai Eatery & Bar
+// Merchant Phone Number : (206) 858-6652
+// Merchant Full Address : 1400 10th Ave Seattle WA 98122
+// Merchant Street Address : 1400 10th Ave
+// Merchant City : Seattle
+// Merchant State : WA
+// Merchant ZIP Code : 98122
 
+// Subtotal : $128.80
+// Total Tax :
+// Tip :
+// Total : $120.55
+
+
+
+
+// Table name: Items
+// Row 0:
+// Description: Kom Soi($18.95)
+// Category:
+// Date:
+// Price:
+// Quantity: ×1
+// Total Price: $18.95
+
+// Row 1:
+// Description: Pad Kee Mao($16.95)
+// Category:
+// Date:
+// Price:
+// Quantity: X1
+// Total Price: $16.95
 }
 
 module.exports = new receipt();

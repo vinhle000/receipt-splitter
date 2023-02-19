@@ -3,11 +3,14 @@ import './App.css';
 import {useState} from 'react'
 import axios from 'axios';
 
+import ItemsTable from './components/ItemsTable';
+import jsonData from './extractedProcessBevetts.json'
 
 function App() {
 
   const [selectedFile, setSelectedFile] = useState();
   const [orderedItems, setOrderedItems] = useState();
+  const [receiptInfo, setReceiptInfo] = useState(jsonData);
   // Set file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -35,7 +38,7 @@ function App() {
     .then( res => {
       console.log('Success status: ', res)
       // setOrderedItems(sub)
-
+      setReceiptInfo(res)
       // Get list of items from response
       // should provide all the items from the menu
     })
@@ -79,6 +82,18 @@ function App() {
       {fileData()}
 
 
+        <ul className="divide-y divide-gray-200">
+         {receiptInfo.purchasedItems.map(( item, index ) => (
+          <li key={item.description} className="py-4 flex">
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900">{item.description}</p>
+              <p className="text-sm text-gray-500">{item.totalPrice}</p>
+            </div>
+          </li>
+         ))}
+        </ul>
+
+        <ItemsTable />
 
     </>
     // https://www.geeksforgeeks.org/file-uploading-in-react-js/
