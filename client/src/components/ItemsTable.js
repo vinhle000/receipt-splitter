@@ -10,11 +10,15 @@ const columns: GridColDef[] = [
   { field: 'price', headerName: 'Price', flex: 140},
   { field: 'quantity', headerName: 'Quantity', flex: 140},
   { field: 'totalPrice', headerName: 'Tota lPrice', flex: 140},
-  { field: 'user', headerName: 'User', flex: 160}
+  { field: 'user', headerName: 'User', flex: 160, editable: true}
+  // {valueSetter: params => {
+  //   const
+  // }}
 ]
 
 
-function ItemsTable({purchasedItems, setSelectedItems}) {
+function ItemsTable({purchasedItems, selectionModel, setSelectionModel}) {
+
 
 
   /*TODO:
@@ -50,20 +54,52 @@ function ItemsTable({purchasedItems, setSelectedItems}) {
 
   }
 
+
+
+  // const handleCellEditCommit = React.useCallback(
+  //   ({ id, field, value }) => {
+  //     if (field === 'user') {
+  //       const [firstName, lastName] = value.toString().split(' ');
+  //       const updatedRows = rows.map((row) => {
+  //         if (row.id === id) {
+  //           return { ...row, firstName, lastName };
+  //         }
+  //         return row;
+  //       });
+  //       setRows(updatedRows);
+  //     }
+  //   },
+  //   [rows],
+  // );
+
+  // const handleEditRowsModelChange = () => {
+
+  // }
+
+
+  //api.setEditCellValue({ id, field, value: newValue });
   return (
     <>
     <div style={{ height: '100%', width: '100%' }}>
       <DataGrid
       getRowId={()=> uuidv4()}
       autoHeight
+      // onCellEditCommit={handleCellEditCommit}
       autoPageSize={true}
         rows={purchasedItems}
         columns={columns}
         pageSize={20}
         rowsPerPageOptions={[20]}
         checkboxSelection
-        onSelectionModelChange={selectionModel => setSelectedItems(selectionModel)}
+        onSelectionModelChange={newSelectionModel => setSelectionModel(newSelectionModel)}
+        selectionModel={selectionModel}
+        setEditCellValue={ (params, event) =>{}
+          //trigger event from asignee modal confirmation
+          //
 
+          // setEditCellValue	(params: GridEditCellValueParams, event?: MuiBaseEvent) => Promise<boolean> | voi
+
+        }
       />
     </div>
 
