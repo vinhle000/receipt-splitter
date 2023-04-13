@@ -1,6 +1,6 @@
 const butlerWrapper = require('./butlerWrapper')
 const sampleReceiptData = require('../files/sampleButler.json') // SampleData from meal receipt
-
+const { uuid } = require('uuidv4')
 
 class receipt {
 
@@ -32,6 +32,7 @@ class receipt {
           //Table Item (food)
           table.rows.forEach(row => {
             let purchasedItem = {}
+            purchasedItem.id = uuid();
             // Each column of item
             row.cells.forEach(cell => {
               // REFACTOR: Add confidenc level before creation
