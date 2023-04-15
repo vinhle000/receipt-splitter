@@ -99,19 +99,12 @@ const headCells = [
 }
 
 // TODO: Move component to separate file
-const EditableTableCell = ({ row, fieldName, valueChangeRowIndex, handleTextFieldChange}) => {
-
+const EditableTableCell = ({ row, fieldName, rowIndex, handleTextFieldChange}) => {
   const onCellValueChange = e => {
-
-    console.log('>>>> editable cell hanlde()',  {//
-    fieldValue: e.target.value,
-    fieldName: fieldName,
-
-  })
-  handleTextFieldChange(valueChangeRowIndex, { // This is the binded(prop) function passed down into the EditableTableCell component
-      fieldValue: e.target.value,
-      fieldName: fieldName,
-    });
+    handleTextFieldChange(rowIndex, { // This is the binded(prop) function passed down into the EditableTableCell component
+        fieldValue: e.target.value,
+        fieldName: fieldName,
+      });
   };
 
   return (
@@ -128,7 +121,7 @@ const EditableTableCell = ({ row, fieldName, valueChangeRowIndex, handleTextFiel
 
 
 
-function ItemsTable({purchasedItems, setPurchasedItems, selected, setSelected}) {
+function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedItems, selected, setSelected}) {
 
 
   const handleTextFieldChange = (rowIndex, change) => {
@@ -137,7 +130,12 @@ function ItemsTable({purchasedItems, setPurchasedItems, selected, setSelected}) 
       //1 setUpdatedItems from the entering the values
       //2 create button to setPurchaseItems to updatedItems
       //
-    const updateItems = purchasedItems;
+    const updatedItems = updatedPurchasedItems;
+    updatedItems[rowIndex][change.fieldName] = change.fieldValue
+
+    console.log('>>>>>> ROW updated to: ', updatedItems[rowIndex])
+    setUpdatedPurchasedItems(updatedItems)
+
   }
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -202,7 +200,7 @@ function ItemsTable({purchasedItems, setPurchasedItems, selected, setSelected}) 
                 <EditableTableCell
                   row={row}
                   fieldName="user"
-                  valueChangeRowIndex={index}
+                  rowIndex={index}
                   handleTextFieldChange={handleTextFieldChange}
                 />
               </TableRow>

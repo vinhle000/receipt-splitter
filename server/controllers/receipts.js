@@ -33,6 +33,7 @@ class receipt {
           table.rows.forEach(row => {
             let purchasedItem = {}
             purchasedItem.id = uuid();
+            purchasedItem.user = '';
             // Each column of item
             row.cells.forEach(cell => {
               // REFACTOR: Add confidenc level before creation

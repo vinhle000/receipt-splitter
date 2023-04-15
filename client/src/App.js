@@ -7,7 +7,7 @@ import ItemsTable from "./components/ItemsTable";
 import jsonData from "./extractedProcessBevetts.json";
 
 
-import { GridApi } from '@mui/x-data-grid-pro';
+// import { GridApi } from '@mui/x-data-grid-pro';
 import AssignModal from './components/AssignModal'
 
 
@@ -25,6 +25,7 @@ function App() {
   const [selected, setSelected] = useState([]);
 
   const [purchasedItems, setPurchasedItems] = useState(receiptInfo.purchasedItems)
+  const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo.purchasedItems);
   // Set file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -54,7 +55,7 @@ function App() {
   const fileData = () => {
     if (selectedFile) {
       return (
-        // File details to dislplay
+        // File details to display
         // <p> File Name: selectedFile</p>
         <p> File Name: {selectedFile.name}</p>
       );
@@ -93,9 +94,13 @@ function App() {
     //Clear selection of table
   }
 
+  const handleSaveUserAssignment = () => {
+    setPurchasedItems(updatedPurchasedItems)
+    console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
+  }
 
 
-  console.log('PEOPLES ITEMS', peoplesTotals)
+  // console.log('PEOPLES ITEMS', purchasedItems)
   // const handleModalClose = () => [setAssignModalOn()];
   return (
     <>
@@ -111,27 +116,39 @@ function App() {
         </button>
       </div>
       <div>
-        <button
+        {/* <button
           className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
           onClick={() => setAssignModalOn(true)}
         >
           Assign Person
+        </button> */}
+        <button
+          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          onClick={handleSaveUserAssignment}
+        >
+          Save User Assignment
         </button>
       </div>
-      <ItemsTable purchasedItems={purchasedItems} setPurchasedItems={setPurchasedItems} selected={selected} setSelected={setSelected}/>
+      <ItemsTable
+        purchasedItems={purchasedItems}
+        updatedPurchasedItems={updatedPurchasedItems}
+        setUpdatedPurchasedItems={setUpdatedPurchasedItems}
+        selected={selected}
+        setSelected={setSelected}
+      />
 
 
       <h3>Totals</h3>
 
 
-
+{/*
       {isAssignPersonModalOn &&
         <AssignModal
           setAssignModalOn={setAssignModalOn}
           assignee={assignee}
           setAssignee={setAssignee}
           assignPersonToSelectedItems={assignPersonToSelectedItems}
-        />}
+        />} */}
 
     </>
 
