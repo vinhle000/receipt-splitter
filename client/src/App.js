@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 import ItemsTable from "./components/ItemsTable";
@@ -23,7 +23,8 @@ function App() {
   // const [selectionModel, setSelectionModel] = useState();
   const [userTotals, setUserTotals] = useState({});
   const [selected, setSelected] = useState([]);
-
+  const [tipRate, setTipRate] = useState(); //Maybe add tip percentage as an option
+  const [taxRate, setTaxRate] = useState();
   const [purchasedItems, setPurchasedItems] = useState(receiptInfo.purchasedItems)
   const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo.purchasedItems);
   // Set file
@@ -76,39 +77,54 @@ function App() {
     console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
   }
 
+
+
+
+
   const handleCalculate = () =>  {
 
-    // Create key/val obj, users
-    // Iterate through item list
-    // build dictionary based off users,
-    // users : {
-    //     total:
-    //     tip:
-    //     tax:
-    //     owedTotal:
+    // calculate tax and tip to add to owedTotal
+    const subtotal = Number(receiptInfo.Subtotal.slice(1));
+    const totalTax = Number(receiptInfo['Total Tax'].slice(1));
+    let taxRate = totalTax / subtotal;
+    console.log(' tax rate is >>> ', taxRate)
 
-    // }
+    // TODO: tipRate
+    const total = Number(receiptInfo.Total.slice(1));
+    // let tipAmount = '' // if amount was provided
+    // let tipRate = tipAmount / total;
+    // console.log(' tax rate is >>> ', taxRate)
 
+    let tipRate = 0.20 // percentage TODO: create input field for user
+
+    setTaxRate(taxRate)
+    setTipRate(tipRate);
     let userTotals = {}
 
     for (let item of purchasedItems) {
-      // console.log('>>> slice: ',item.totalPrice.slice(1) )
-      // console.log('>>', parseInt(item.totalPrice.slice(1)))
-      // console.log('>>', Number(item.totalPrice.slice(1)))
+
       const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
       if (item.user in userTotals) {
-        userTotals[item.user].total = userTotals[item.user].total + itemPrice;
+        userTotals[item.user].subtotal = userTotals[item.user].subtotal + itemPrice;
       } else { // Initialize
         userTotals[item.user] = {
-        total: itemPrice,
+        subtotal: itemPrice,
         };
       }
+      // TODO: add prop with array of purchased items by user
+      userTotals[item.user].tax = (userTotals[item.user].subtotal * taxRate).toFixed(2);
+      let subtotalWithTax = userTotals[item.user].subtotal * (1 + taxRate);
+
+      userTotals[item.user].tip = (subtotalWithTax *  tipRate).toFixed(2);
+      userTotals[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
+
     }
     console.log('>>> Calculated userTotals :', userTotals)
     setUserTotals(userTotals);
   }
-  // console.log('PEOPLES ITEMS', purchasedItems)
-  // const handleModalClose = () => [setAssignModalOn()];
+
+
+
   return (
     <>
       <h1 className='text-3xl font-bold underline'>Upload a file</h1>
@@ -149,9 +165,8 @@ function App() {
         selected={selected}
         setSelected={setSelected}
       />
-
-
       <h3>Totals</h3>
+
 
 
 {/*
