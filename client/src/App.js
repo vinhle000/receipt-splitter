@@ -21,7 +21,7 @@ function App() {
 
   const [assignee, setAssignee] = useState('');
   // const [selectionModel, setSelectionModel] = useState();
-  const [peoplesTotals, setPeoplesTotals] = useState({});
+  const [userTotals, setUserTotals] = useState({});
   const [selected, setSelected] = useState([]);
 
   const [purchasedItems, setPurchasedItems] = useState(receiptInfo.purchasedItems)
@@ -70,36 +70,43 @@ function App() {
     }
   };
 
-  // TODO: Perform use effect after assigning users to items
-  // => create user cards, or update user cards with totals
-  const assignPersonToSelectedItems = () => {
-
-
-    //Update user object with list of item ID's
-    // let totals = peoplesTotals;
-    // totals[assignee] = {items: selected};
-    // setPeoplesTotals(totals);
-
-
-    // // Update table
-    // let assignedItems = purchasedItems;
-
-    // TODO: Need to get row of data, then update fields
-
-    // for(let i=0; i < assignedItems.length; i++) {
-    //   if (assignedItems)
-    // }
-    // setAssignee('');
-    // setAssignModalOn(false);
-    //Clear selection of table
-  }
 
   const handleSaveUserAssignment = () => {
     setPurchasedItems(updatedPurchasedItems)
     console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
   }
 
+  const handleCalculate = () =>  {
 
+    // Create key/val obj, users
+    // Iterate through item list
+    // build dictionary based off users,
+    // users : {
+    //     total:
+    //     tip:
+    //     tax:
+    //     owedTotal:
+
+    // }
+
+    let userTotals = {}
+
+    for (let item of purchasedItems) {
+      // console.log('>>> slice: ',item.totalPrice.slice(1) )
+      // console.log('>>', parseInt(item.totalPrice.slice(1)))
+      // console.log('>>', Number(item.totalPrice.slice(1)))
+      const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
+      if (item.user in userTotals) {
+        userTotals[item.user].total = userTotals[item.user].total + itemPrice;
+      } else { // Initialize
+        userTotals[item.user] = {
+        total: itemPrice,
+        };
+      }
+    }
+    console.log('>>> Calculated userTotals :', userTotals)
+    setUserTotals(userTotals);
+  }
   // console.log('PEOPLES ITEMS', purchasedItems)
   // const handleModalClose = () => [setAssignModalOn()];
   return (
@@ -111,7 +118,7 @@ function App() {
           type='file'
           onChange={onFileChange}
         />
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded' onClick={onFileUpload}>
+        <button className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-1 rounded' onClick={onFileUpload}>
           Upload!
         </button>
       </div>
@@ -127,6 +134,12 @@ function App() {
           onClick={handleSaveUserAssignment}
         >
           Save User Assignment
+        </button>
+        <button
+          className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+          onClick={handleCalculate}
+        >
+          calculate
         </button>
       </div>
       <ItemsTable
