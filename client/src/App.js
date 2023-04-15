@@ -20,10 +20,11 @@ function App() {
     useState(false);
 
   const [assignee, setAssignee] = useState('');
-  const [selectionModel, setSelectionModel] = useState();
+  // const [selectionModel, setSelectionModel] = useState();
   const [peoplesTotals, setPeoplesTotals] = useState({});
+  const [selected, setSelected] = useState([]);
 
-
+  const [purchasedItems, setPurchasedItems] = useState(receiptInfo.purchasedItems)
   // Set file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -42,7 +43,7 @@ function App() {
       // headers: { "Content-Type": "multipart/form-data" },
     })
       .then((res) => {
-        console.log("Success status: ", res);
+        console.log("Success status: ", JSON.stringify(res, null, 2));
         setReceiptInfo(res);
       })
       .catch((error) => {
@@ -72,16 +73,28 @@ function App() {
   // => create user cards, or update user cards with totals
   const assignPersonToSelectedItems = () => {
 
-    let totals = peoplesTotals;
 
-    totals[assignee] = {items: selectionModel};
-    setPeoplesTotals(totals);
-    setAssignee('');
-    setAssignModalOn(false);
+    //Update user object with list of item ID's
+    // let totals = peoplesTotals;
+    // totals[assignee] = {items: selected};
+    // setPeoplesTotals(totals);
+
+
+    // // Update table
+    // let assignedItems = purchasedItems;
+
+    // TODO: Need to get row of data, then update fields
+
+    // for(let i=0; i < assignedItems.length; i++) {
+    //   if (assignedItems)
+    // }
+    // setAssignee('');
+    // setAssignModalOn(false);
     //Clear selection of table
-
-
   }
+
+
+
   console.log('PEOPLES ITEMS', peoplesTotals)
   // const handleModalClose = () => [setAssignModalOn()];
   return (
@@ -105,7 +118,9 @@ function App() {
           Assign Person
         </button>
       </div>
-      <ItemsTable purchasedItems={receiptInfo.purchasedItems} selectionModel={selectionModel} setSelectionModel={setSelectionModel}/>
+      <ItemsTable purchasedItems={purchasedItems} setPurchasedItems={setPurchasedItems} selected={selected} setSelected={setSelected}/>
+
+
       <h3>Totals</h3>
 
 
@@ -117,8 +132,6 @@ function App() {
           setAssignee={setAssignee}
           assignPersonToSelectedItems={assignPersonToSelectedItems}
         />}
-
-
 
     </>
 

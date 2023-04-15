@@ -18,84 +18,98 @@
   "Total": "$496.35",
   "purchasedItems": [
     {
+      "id": "1",
       "description": "Pearl E",
       "price": "",
       "quantity": "",
       "totalPrice": "$11.85"
     },
     {
+      "id": "2",
       "description": "Disco Hama W",
       "price": "",
       "quantity": "3",
       "totalPrice": "$11.85"
     },
     {
+      "id": "3",
       "description": "",
       "price": "",
       "quantity": "3",
       "totalPrice": ""
     },
     {
+      "id": "4",
       "description": "Dry-Aged Bone-In Ribeye",
       "price": "",
       "quantity": "2",
       "totalPrice": "$199.90"
     },
     {
+      "id": "5",
       "description": "Ribeye Steak Frites",
       "price": "",
       "quantity": "",
       "totalPrice": "$35.95"
     },
     {
+      "id": "6",
       "description": "Traditional Filet Mignon",
       "price": "",
       "quantity": "",
       "totalPrice": "$77.90"
     },
     {
+      "id": "7",
       "description": "Brussel Sprouts",
       "price": "",
       "quantity": "",
       "totalPrice": "$15.95"
     },
     {
+      "id": "8",
       "description": "Truffle Mac & Cheese",
       "price": "",
       "quantity": "",
       "totalPrice": "$15.95"
     },
     {
+      "id": "9",
       "description": "Buttery Mashed Potatoes",
       "price": "",
       "quantity": "",
       "totalPrice": "$14.95"
     },
     {
+      "id": "10",
       "description": "Pommes Frites",
       "price": "",
       "quantity": "",
       "totalPrice": "$10.95"
     },
     {
+      "id": "11",
       "description": "Manhattan - House",
       "price": "",
       "quantity": "",
       "totalPrice": "$14.00"
     },
     {
+      "id": "12",
       "description": "Coffee",
       "price": "",
       "quantity": "",
       "totalPrice": "$5.00"
     },
     {
+      "id": "13",
       "description": "Elijah Craig OF",
       "price": "",
       "quantity": "",
       "totalPrice": "$15.95"
     },
     {
+      "id": "14",
       "description": "Restaurant Surcharge (3.25%)",
       "price": "",
       "quantity": "",

@@ -6,9 +6,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TextField from '@mui/material/TextField'
 import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper'
-import { v4 as uuidv4 } from 'uuid';
+import { uuid } from 'uuidv4';
 
 
   /*TODO:
@@ -36,11 +37,7 @@ import { v4 as uuidv4 } from 'uuid';
 
   */
 
-      // <TableCell>Description </TableCell>
-      // <TableCell align="right">Price</TableCell>
-      // <TableCell align="right">Quantity</TableCell>
-      // <TableCell align="right">Total Price</TableCell>
-      // <TableCell align="right">User</TableCell>
+
 const headCells = [
   {
     id: 'description',
@@ -93,45 +90,64 @@ const headCells = [
           key={headCell.id}
           align={headCell.numeric ? 'right' : 'left'}
           padding={headCell.disabledPadding ? 'none' : 'normal'}
-          // sortDirection={orderBy === headCell.id ? order : false}
         >
           {headCell.label}
-          {/* <TableSortLabel
-            active={orderBy === headCell.id}
-            direction={orderBy === headCell.id ? order : 'asc'}
-            onClick={createSortHandler(headCell.id)}
-          >
-            {headCell.label}
-            {orderBy === headCell.id ? (
-              <Box component="span" sx={visuallyHidden}>
-                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-              </Box>
-            ) : null }
-          </TableSortLabel> */}
         </TableCell>
       ))}
     </TableHead>
   );
 }
 
-function ItemsTable({purchasedItems, selectionModel, setSelectionModel}) {
+// TODO: Move component to separate file
+const EditableTableCell = ({ row, fieldName, valueChangeRowIndex, handleTextFieldChange}) => {
 
-  const assignUsername = (username) => {
+  const onCellValueChange = e => {
+
+    console.log('>>>> editable cell hanlde()',  {//
+    fieldValue: e.target.value,
+    fieldName: fieldName,
+
+  })
+  handleTextFieldChange(valueChangeRowIndex, { // This is the binded(prop) function passed down into the EditableTableCell component
+      fieldValue: e.target.value,
+      fieldName: fieldName,
+    });
+  };
+
+  return (
+    <TableCell>
+      <TextField
+        onChange={onCellValueChange}
+        id={fieldName}
+        defaultValue={row[fieldName]}
+        margin="normal"
+      />
+    </TableCell>
+  )
+}
+
+
+
+function ItemsTable({purchasedItems, setPurchasedItems, selected, setSelected}) {
+
+
+  const handleTextFieldChange = (rowIndex, change) => {
+    // set state of purchasedItems
+    // TODO:
+      //1 setUpdatedItems from the entering the values
+      //2 create button to setPurchaseItems to updatedItems
+      //
+    const updateItems = purchasedItems;
   }
-
-  const calculate = () => {
-  }
-
-  const [selected, setSelected] = useState([]);
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-  const handleClick = (event, description) => {
 
-    const selectedIndex = selected.indexOf(description);
+  const handleCheckboxClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, description);
+      newSelected = newSelected.concat(selected, id);
     } else if ( selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -142,10 +158,11 @@ function ItemsTable({purchasedItems, selectionModel, setSelectionModel}) {
         selected.slice(selectedIndex + 1),
       )
     };
-
     setSelected(newSelected);
-
+    // console.log('>>>> selected:',  selected);
+    // console.log('>>>> NEW selected:',  newSelected);
   }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -154,16 +171,16 @@ function ItemsTable({purchasedItems, selectionModel, setSelectionModel}) {
           rowCount={purchasedItems.length}
         />
         <TableBody>
-          {purchasedItems.map((row) => {
-            const isItemSelected = isSelected(row.description);
+          {purchasedItems.map((row, index) => {
+            const isItemSelected = isSelected(row.id);
             return (
               <TableRow
                 hover
-                onClick={(event) => handleClick(event, row.description)}
+                onClick={(event) => handleCheckboxClick(event, row.id)}
                 role="checkbox"
                 aria-checked={isItemSelected}
                 tabIndex={-1}
-                key={row.description}
+                // key={row.description}
                 selected={isItemSelected}
                 sx={{ cursor: 'pointer' }}
               >
@@ -182,7 +199,12 @@ function ItemsTable({purchasedItems, selectionModel, setSelectionModel}) {
                 <TableCell align="right">{row.price}</TableCell>
                 <TableCell align="right">{row.quantity}</TableCell>
                 <TableCell align="right">{row.totalPrice}</TableCell>
-                <TableCell align="right">{row.user}</TableCell>
+                <EditableTableCell
+                  row={row}
+                  fieldName="user"
+                  valueChangeRowIndex={index}
+                  handleTextFieldChange={handleTextFieldChange}
+                />
               </TableRow>
             )
             })
