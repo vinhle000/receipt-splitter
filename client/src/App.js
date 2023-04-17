@@ -21,7 +21,7 @@ function App() {
 
   const [assignee, setAssignee] = useState('');
   // const [selectionModel, setSelectionModel] = useState();
-  const [userTotals, setUserTotals] = useState({});
+  const [userTotals, setUserTotals] = useState(null);
   const [selected, setSelected] = useState([]);
   const [tipRate, setTipRate] = useState(); //Maybe add tip percentage as an option
   const [taxRate, setTaxRate] = useState();
@@ -166,6 +166,20 @@ function App() {
         setSelected={setSelected}
       />
       <h3>Totals</h3>
+
+      <div>
+      {userTotals && (
+        userTotals.map( (item) => {
+          <div>
+            <h4>item.user</h4>
+            <p>{`subtotal:  ${item.subtotal}`}</p>
+            <p>{`tax:       ${item.tax}`}</p>
+            <p>{`tip:       ${item.tip}`}</p>
+            <p>{`owedTotal: ${item.tip}`}</p>
+           </div>
+        })
+      )}
+      </div>
 
 
 
