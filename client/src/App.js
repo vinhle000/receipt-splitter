@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import ItemsTable from "./components/ItemsTable";
+import UserInfoCard from "./components/UserInfoCard";
 import jsonData from "./extractedProcessBevetts.json";
 
 
@@ -119,12 +120,16 @@ function App() {
       userTotals[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
 
     }
-    console.log('>>> Calculated userTotals :', userTotals)
+    // console.log('>>> Calculated userTotals :', userTotals)
     setUserTotals(userTotals);
   }
 
+  if (userTotals !== null) {
 
+    console.log('>>> Calculated userTotals :', Object.entries(userTotals));
+  }
 
+  let remainderTotalInfoCard = null;
   return (
     <>
       <h1 className='text-3xl font-bold underline'>Upload a file</h1>
@@ -158,6 +163,26 @@ function App() {
           calculate
         </button>
       </div>
+
+
+      <div>
+        <h1>-------------</h1>
+      {userTotals && (
+        Object.entries(userTotals).map( (item) => {
+          if ( item[0] === '') {
+            remainderTotalInfoCard = <UserInfoCard username="Remaining Total" data={item[1]}/>
+          } else {
+            return <UserInfoCard username={item[0]} data={item[1]} />
+          }
+        })
+
+      )}
+      {remainderInfoCard}
+      <h1>-------------</h1>
+      </div>
+
+
+
       <ItemsTable
         purchasedItems={purchasedItems}
         updatedPurchasedItems={updatedPurchasedItems}
@@ -167,19 +192,7 @@ function App() {
       />
       <h3>Totals</h3>
 
-      <div>
-      {userTotals && (
-        userTotals.map( (item) => {
-          <div>
-            <h4>item.user</h4>
-            <p>{`subtotal:  ${item.subtotal}`}</p>
-            <p>{`tax:       ${item.tax}`}</p>
-            <p>{`tip:       ${item.tip}`}</p>
-            <p>{`owedTotal: ${item.tip}`}</p>
-           </div>
-        })
-      )}
-      </div>
+
 
 
 
@@ -192,7 +205,7 @@ function App() {
           assignPersonToSelectedItems={assignPersonToSelectedItems}
         />} */}
 
-    </>
+      </>
 
   );
 }
