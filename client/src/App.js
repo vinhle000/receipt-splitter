@@ -168,7 +168,7 @@ function App() {
       <div>
         <h1>-------------</h1>
       {userTotals && (
-        Object.entries(userTotals).map( (item) => {
+        Object.entries(userTotals).map( (item, index) => {
           if ( item[0] === '') {
             remainderTotalInfoCard = <UserInfoCard username="Remaining Total" data={item[1]}/>
           } else {
@@ -177,7 +177,7 @@ function App() {
         })
 
       )}
-      {remainderInfoCard}
+      {remainderTotalInfoCard}
       <h1>-------------</h1>
       </div>
 
