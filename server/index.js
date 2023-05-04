@@ -9,7 +9,6 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-
 // const sampleReceiptData = require('./files/sampleButler.json') // SampleData from meal receipt
 
 const config = require('../config.js');
@@ -36,14 +35,18 @@ const upload = (multer({storage: storage}));
 
 app.post('/uploadfile', upload.single('myFile'), async (req, res, next) => {
 
-  // Download file
+  // // Download file
   const file_path = `${req.file.destination}/${req.file.filename}`
   console.log('File downloaded to ', file_path)
   const filePaths = [`${file_path}`];
 
-  const results = await receipt.extractInfoFromImage(filePaths) //
+  const results = await receipt.extractInfoFromImage(filePaths)
+  res.json(results) // CAR: Was res with res.send() with a string containing the object not res.json with the json of formatted data
 
-  res.send(`Extraced Info: ${results}`)
+  // === USED For testing sample processed data. Avoids overuse of API and hitting limit
+  // console.log('>>>>>>>>>>> Sent to Client',JSON.stringify(sampleData, null, 2)) // FOR testing
+  // res.json(sampleData)
+  // ====
 })
 
 app.post('/extractInfo', (req, res) => {
@@ -53,6 +56,9 @@ app.post('/extractInfo', (req, res) => {
 app.listen(port, () => {
   console.log('Listening on port', port)
 })
+
+const sampleData = {} // Provide the receipt.js formatted json
+
 
 // Uploading files to Bultler for processing  ======= Current RESULT
 // Listening on port 8080

@@ -16,7 +16,8 @@ import AssignModal from './components/AssignModal'
 function App() {
   const [selectedFile, setSelectedFile] = useState();
   const [orderedItems, setOrderedItems] = useState();
-  const [receiptInfo, setReceiptInfo] = useState(jsonData);
+  const [receiptInfo, setReceiptInfo] = useState();
+  // const [receiptInfo, setReceiptInfo] = useState();
   const [isAssignPersonModalOn, setAssignModalOn] =
     useState(false);
 
@@ -26,8 +27,10 @@ function App() {
   const [selected, setSelected] = useState([]);
   const [tipRate, setTipRate] = useState(); //Maybe add tip percentage as an option
   const [taxRate, setTaxRate] = useState();
-  const [purchasedItems, setPurchasedItems] = useState(receiptInfo.purchasedItems)
-  const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo.purchasedItems);
+  // const [purchasedItems, setPurchasedItems] = useState(receiptInfo?.purchasedItems)
+  const [purchasedItems, setPurchasedItems] = useState([])
+  // const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo?.purchasedItems);
+  const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState([]);
   // Set file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -43,11 +46,44 @@ function App() {
       method: "POST",
       url: "http://localhost:8080/uploadfile",
       data: formData,
-      // headers: { "Content-Type": "multipart/form-data" },
+      headers: { "Content-Type": "multipart/form-data" },
     })
       .then((res) => {
-        console.log("Success status: ", JSON.stringify(res, null, 2));
-        setReceiptInfo(res);
+        console.log("Response Success status: ", JSON.stringify(res.data, null, 2));
+        setReceiptInfo(res.data);
+        setPurchasedItems(res.data.purchasedItems);
+        setUpdatedPurchasedItems(res.data.purchasedItems);
+
+         // calculate tax and tip to add to owedTotal
+        const subtotal = Number(res.data['Subtotal'].slice(1));
+        const total = Number(res.data['Total'].slice(1));
+        // TODO: Move this process to the server side,
+        // Butler has issues discerning between subtotals and Total of the receipt
+          // Flip them if Subtotals is greater than Totals,
+            // Assign Totals = Subtotals
+            // and Subtotals = Totals
+        // Maybe in the server, add the calculated fields to the extracted and process/formatted receipt info
+        // {
+        //   calculated:{
+        //     total:
+        //     subtotal:
+        //     tax:
+        //   }
+        // }
+
+        let taxRate = (total - subtotal) / total
+        console.log(' tax rate is >>> ', taxRate)
+
+        // TODO: tipRate
+        // const total = Number(res.data.Total.slice(1));
+        // let tipAmount = '' // if amount was provided
+        // let tipRate = tipAmount / total;
+        // console.log(' tax rate is >>> ', taxRate)
+        // NOTE: Could place tip rate or tip amount field to calculate
+        let tipRate = 0.20 // percentage TODO: create input field for user
+
+        setTaxRate(taxRate)
+        setTipRate(tipRate);
       })
       .catch((error) => {
         console.error("Error occurred sending file ", error);
@@ -72,38 +108,15 @@ function App() {
     }
   };
 
-
   const handleSaveUserAssignment = () => {
     setPurchasedItems(updatedPurchasedItems)
     console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
   }
 
-
-
-
-
   const handleCalculate = () =>  {
-
-    // calculate tax and tip to add to owedTotal
-    const subtotal = Number(receiptInfo.Subtotal.slice(1));
-    const totalTax = Number(receiptInfo['Total Tax'].slice(1));
-    let taxRate = totalTax / subtotal;
-    console.log(' tax rate is >>> ', taxRate)
-
-    // TODO: tipRate
-    const total = Number(receiptInfo.Total.slice(1));
-    // let tipAmount = '' // if amount was provided
-    // let tipRate = tipAmount / total;
-    // console.log(' tax rate is >>> ', taxRate)
-
-    let tipRate = 0.20 // percentage TODO: create input field for user
-
-    setTaxRate(taxRate)
-    setTipRate(tipRate);
     let userTotals = {}
 
     for (let item of purchasedItems) {
-
       const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
       if (item.user in userTotals) {
         userTotals[item.user].subtotal = userTotals[item.user].subtotal + itemPrice;
@@ -120,12 +133,10 @@ function App() {
       userTotals[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
 
     }
-    // console.log('>>> Calculated userTotals :', userTotals)
     setUserTotals(userTotals);
   }
 
   if (userTotals !== null) {
-
     console.log('>>> Calculated userTotals :', Object.entries(userTotals));
   }
 
@@ -164,9 +175,24 @@ function App() {
         </button>
       </div>
 
+      {receiptInfo && (
+        <>
+          <h1>-------------</h1>
+          {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
+          <h2>{`Total: ${receiptInfo.Total}`}</h2>
+          <h3>{`Subtotal: ${receiptInfo.Subtotal}`}</h3>
+          <h3>{`Total Tax: ${receiptInfo["Total Tax"]}`}</h3>
+          {taxRate && <h3>{`Calculated Tax: ${taxRate}`}</h3>}
+          <h3>{`Tip: ${receiptInfo["Tip"]}`}</h3>
+           {tipRate && <h3>{`Calculated Tip: ${tipRate}`}</h3>}
+          <h3>{`TODO: User can enter tip amount`}</h3>
+          <h1>-------------</h1>
+        </>
+      )}
+
 
       <div>
-        <h1>-------------</h1>
+
       {userTotals && (
         Object.entries(userTotals).map( (item, index) => {
           if ( item[0] === '') {
@@ -178,7 +204,7 @@ function App() {
 
       )}
       {remainderTotalInfoCard}
-      <h1>-------------</h1>
+
       </div>
 
 

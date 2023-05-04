@@ -44,7 +44,10 @@ class receipt {
                   purchasedItem.description = cell.value;
                   break;
                 case 'Quantity':
+
                   purchasedItem.quantity = cell.value;
+                  // if quantity > 1 ,
+                  // push the item x quanitty
                   break;
                 case 'Price':
                   purchasedItem.price = cell.value;
@@ -57,6 +60,13 @@ class receipt {
                   console.log('Non added item column: ', cell.columnName )
               }
             });
+
+            while (purchasedItem.quantity > 1) {
+              purchasedItems.push(purchasedItems);
+              purchasedItem.quantity =  purchasedItem.quantity - 1;
+              // TODO: change quantity for the split up item
+            }
+
             purchasedItems.push(purchasedItem)
           })
         }
