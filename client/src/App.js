@@ -4,19 +4,21 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import ItemsTable from "./components/ItemsTable";
-import UserInfoCard from "./components/UserInfoCard";
-import jsonData from "./extractedProcessBevetts.json";
+import UserInfoCard from "./components/userInfoList/UserInfoCard";
+import testDataSample from "./extractedProcessBevetts.json";
 
+import AssignModal from './components/AssignModal';
+import UserInfoList from './components/userInfoList/UserInfoList';
 
-// import { GridApi } from '@mui/x-data-grid-pro';
-import AssignModal from './components/AssignModal'
+//styled components:
+
 
 
 
 function App() {
   const [selectedFile, setSelectedFile] = useState();
   const [orderedItems, setOrderedItems] = useState();
-  const [receiptInfo, setReceiptInfo] = useState();
+  const [receiptInfo, setReceiptInfo] = useState(testDataSample);
   // const [receiptInfo, setReceiptInfo] = useState();
   const [isAssignPersonModalOn, setAssignModalOn] =
     useState(false);
@@ -27,8 +29,8 @@ function App() {
   const [selected, setSelected] = useState([]);
   const [tipRate, setTipRate] = useState(); //Maybe add tip percentage as an option
   const [taxRate, setTaxRate] = useState();
-  // const [purchasedItems, setPurchasedItems] = useState(receiptInfo?.purchasedItems)
-  const [purchasedItems, setPurchasedItems] = useState([])
+  // const [purchasedItems, setPurchasedItems] = useState([])
+  const [purchasedItems, setPurchasedItems] = useState(testDataSample.purchasedItems)
   // const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo?.purchasedItems);
   const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState([]);
   // Set file
@@ -140,11 +142,10 @@ function App() {
     console.log('>>> Calculated userTotals :', Object.entries(userTotals));
   }
 
-  let remainderTotalInfoCard = null;
   return (
     <>
-      <h1 className='text-3xl font-bold underline'>Upload a file</h1>
-      <div>
+      <h1 className='text-3xl font-bold underline'>Action bar</h1>
+      <div name>
         <input
           style={{ border: "1px solid black" }}
           type='file'
@@ -175,8 +176,11 @@ function App() {
         </button>
       </div>
 
+
+
       {receiptInfo && (
         <>
+          <h1 className='text-3xl font-bold underline'>Purchased Items</h1>
           <h1>-------------</h1>
           {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
           <h2>{`Total: ${receiptInfo.Total}`}</h2>
@@ -191,21 +195,7 @@ function App() {
       )}
 
 
-      <div>
 
-      {userTotals && (
-        Object.entries(userTotals).map( (item, index) => {
-          if ( item[0] === '') {
-            remainderTotalInfoCard = <UserInfoCard username="Remaining Total" data={item[1]}/>
-          } else {
-            return <UserInfoCard username={item[0]} data={item[1]} />
-          }
-        })
-
-      )}
-      {remainderTotalInfoCard}
-
-      </div>
 
 
 
@@ -216,9 +206,13 @@ function App() {
         selected={selected}
         setSelected={setSelected}
       />
+
+      <h1 className='text-3xl font-bold underline'>User Totals</h1>
       <h3>Totals</h3>
 
-
+      <div>
+        <UserInfoList/>
+      </div>
 
 
 

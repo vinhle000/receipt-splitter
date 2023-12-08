@@ -123,7 +123,7 @@ const EditableTableCell = ({ row, fieldName, rowIndex, handleTextFieldChange}) =
 
 function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedItems, selected, setSelected}) {
 
-
+  console.log('>>>>> purchasedItems: ', purchasedItems)
   const handleTextFieldChange = (rowIndex, change) => {
     // set state of purchasedItems
     // TODO:
