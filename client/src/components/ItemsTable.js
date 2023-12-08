@@ -11,6 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Paper from '@mui/material/Paper'
 import { uuid } from 'uuidv4';
 
+import EditableTableCell from './purchasedItemsTable/EditableTableCell';
 
   /*TODO:
   Create field to add users
@@ -40,42 +41,44 @@ import { uuid } from 'uuidv4';
 
 const headCells = [
   {
-    id: 'description',
+    id: 'user',
     numeric: false,
     disabledPadding: true,
     label: 'Name',
   },
   {
-    id: 'price',
-    numeric: true,
+    id: 'description',
+    numeric: false,
     disabledPadding: true,
-    label: 'Price',
+    label: 'Item',
   },
-  {
-    id: 'quantity',
-    numeric: true,
-    disabledPadding: true,
-    label: 'Quantity',
-  },
+   // TODO: Decide to split the quantity into individual items on server. Or have it split in the UI?
+  // {
+  //   id: 'price',
+  //   numeric: true,
+  //   disabledPadding: true,
+  //   label: 'Price',
+  // },
+  // {
+  //   id: 'quantity',
+  //   numeric: true,
+  //   disabledPadding: true,
+  //   label: 'Quantity',
+  // },
   {
     id: 'totalPrice',
     numeric: false,
     disabledPadding: true,
-    label: 'Total Price',
+    label: 'Price',
   },
-  {
-    id: 'user',
-    numeric: false,
-    disabledPadding: true,
-    label: 'User',
-  }
+
 ];
 
-// function EnhancedTabledHead({onSelectedAllClick, order, orderBym, numSelected, rowCount}) {
-  function EnhancedTabledHead({numSelected, rowCount}) {
+
+  function PurchasedItemsTabledHead({numSelected, rowCount}) {
   return (
     <TableHead>
-      <TableCell padding="checkbox">
+      {/* <TableCell padding="checkbox">
         <Checkbox
           indeterminate={numSelected > 0 && numSelected < rowCount}
           checked={rowCount > 0 && numSelected === rowCount}
@@ -84,7 +87,7 @@ const headCells = [
             'aria-label': 'select all items',
           }}
         />
-      </TableCell>
+      </TableCell> */}
       {headCells.map((headCell) => (
         <TableCell
           key={headCell.id}
@@ -98,49 +101,23 @@ const headCells = [
   );
 }
 
-// TODO: Move component to separate file
-const EditableTableCell = ({ row, fieldName, rowIndex, handleTextFieldChange}) => {
-  const onCellValueChange = e => {
-    handleTextFieldChange(rowIndex, { // This is the binded(prop) function passed down into the EditableTableCell component
-        fieldValue: e.target.value,
-        fieldName: fieldName,
-      });
-  };
-
-  return (
-    <TableCell>
-      <TextField
-        onChange={onCellValueChange}
-        id={fieldName}
-        defaultValue={row[fieldName]}
-        margin="normal"
-      />
-    </TableCell>
-  )
-}
-
-
 
 function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedItems, selected, setSelected}) {
 
-  console.log('>>>>> purchasedItems: ', purchasedItems)
-  const handleTextFieldChange = (rowIndex, change) => {
-    // set state of purchasedItems
-    // TODO:
-      //1 setUpdatedItems from the entering the values
-      //2 create button to setPurchaseItems to updatedItems
-      //
-    const updatedItems = updatedPurchasedItems;
-    updatedItems[rowIndex][change.fieldName] = change.fieldValue
 
-    console.log('>>>>>> ROW updated to: ', updatedItems[rowIndex])
+  const handleTextFieldChange = (rowIndex, change) => {
+    const updatedItems = updatedPurchasedItems;
+    const username = change.fieldValue;
+    updatedItems[rowIndex][change.fieldName] = username.toUpperCase();
+
+    console.log('>>>>>> ROW updated to: ', updatedItems[rowIndex].user)
     setUpdatedPurchasedItems(updatedItems)
 
   }
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const handleCheckboxClick = (event, id) => {
+  const handleSelectedItem = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -164,7 +141,7 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <EnhancedTabledHead
+        <PurchasedItemsTabledHead
           numSelected={selected.length}
           rowCount={purchasedItems.length}
         />
@@ -174,7 +151,7 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
             return (
               <TableRow
                 hover
-                onClick={(event) => handleCheckboxClick(event, row.id)}
+                onClick={(event) => handleSelectedItem(event, row.id)}
                 role="checkbox"
                 aria-checked={isItemSelected}
                 tabIndex={-1}
@@ -182,7 +159,7 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
                 selected={isItemSelected}
                 sx={{ cursor: 'pointer' }}
               >
-                <TableCell padding="checkbox">
+                {/* <TableCell padding="checkbox">
                   <Checkbox
                     color="primary"
                     checked={isItemSelected}
@@ -190,19 +167,22 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
                     //   'aria-lablelledby': labelId,
                     // }}
                   />
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.description}
-                </TableCell>
-                <TableCell align="right">{row.price}</TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
-                <TableCell align="right">{row.totalPrice}</TableCell>
+                </TableCell> */}
                 <EditableTableCell
                   row={row}
                   fieldName="user"
                   rowIndex={index}
                   handleTextFieldChange={handleTextFieldChange}
                 />
+                <TableCell component="th" scope="row">
+                  {row.description}
+                </TableCell>
+                {/* TODO: Either seperate price and quantity into individual items on server,
+                 or handle here with a child list or some type of split button to make more items*/}
+                {/* <TableCell align="right">{row.price}</TableCell> */}
+                {/* <TableCell align="right">{row.quantity}</TableCell> */}
+                <TableCell align="left">{row.totalPrice}</TableCell>
+
               </TableRow>
             )
             })

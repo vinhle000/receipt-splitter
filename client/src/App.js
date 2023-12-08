@@ -9,7 +9,7 @@ import testDataSample from "./extractedProcessBevetts.json";
 
 import AssignModal from './components/AssignModal';
 import UserInfoList from './components/userInfoList/UserInfoList';
-
+import ActionBar from './components/ActionBar';
 //styled components:
 
 
@@ -25,161 +25,44 @@ function App() {
 
   const [assignee, setAssignee] = useState('');
   // const [selectionModel, setSelectionModel] = useState();
-  const [userTotals, setUserTotals] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [selected, setSelected] = useState([]);
-  const [tipRate, setTipRate] = useState(); //Maybe add tip percentage as an option
-  const [taxRate, setTaxRate] = useState();
+  const [tipRate, setTipRate] = useState(.18); //Maybe add tip percentage as an option
+  const [taxRate, setTaxRate] = useState(.10);
+
+
   // const [purchasedItems, setPurchasedItems] = useState([])
+  // const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState([]);
   const [purchasedItems, setPurchasedItems] = useState(testDataSample.purchasedItems)
-  // const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState(receiptInfo?.purchasedItems);
-  const [updatedPurchasedItems, setUpdatedPurchasedItems] = useState([]);
+  const [updatedPurchasedItems, setUpdatedPurchasedItems] =useState(testDataSample.purchasedItems)
   // Set file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
-  // Upload File //
-  const onFileUpload = () => {
-    const formData = new FormData();
-    formData.append("myFile", selectedFile, selectedFile.name);
-    console.log("== Details of uploaded file: ", selectedFile);
 
-    axios({
-      method: "POST",
-      url: "http://localhost:8080/uploadfile",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((res) => {
-        console.log("Response Success status: ", JSON.stringify(res.data, null, 2));
-        setReceiptInfo(res.data);
-        setPurchasedItems(res.data.purchasedItems);
-        setUpdatedPurchasedItems(res.data.purchasedItems);
 
-         // calculate tax and tip to add to owedTotal
-        const subtotal = Number(res.data['Subtotal'].slice(1));
-        const total = Number(res.data['Total'].slice(1));
-        // TODO: Move this process to the server side,
-        // Butler has issues discerning between subtotals and Total of the receipt
-          // Flip them if Subtotals is greater than Totals,
-            // Assign Totals = Subtotals
-            // and Subtotals = Totals
-        // Maybe in the server, add the calculated fields to the extracted and process/formatted receipt info
-        // {
-        //   calculated:{
-        //     total:
-        //     subtotal:
-        //     tax:
-        //   }
-        // }
-
-        let taxRate = (total - subtotal) / total
-        console.log(' tax rate is >>> ', taxRate)
-
-        // TODO: tipRate
-        // const total = Number(res.data.Total.slice(1));
-        // let tipAmount = '' // if amount was provided
-        // let tipRate = tipAmount / total;
-        // console.log(' tax rate is >>> ', taxRate)
-        // NOTE: Could place tip rate or tip amount field to calculate
-        let tipRate = 0.20 // percentage TODO: create input field for user
-
-        setTaxRate(taxRate)
-        setTipRate(tipRate);
-      })
-      .catch((error) => {
-        console.error("Error occurred sending file ", error);
-      });
-  };
-
-  const fileData = () => {
-    if (selectedFile) {
-      return (
-        // File details to display
-        // <p> File Name: selectedFile</p>
-        <p> File Name: {selectedFile.name}</p>
-      );
-    } else {
-      return (
-        // Display: "Choose file before pressinig the Upload button"
-        <div>
-          <br />
-          <h4>Choose before pressing the Upload button</h4>
-        </div>
-      );
-    }
-  };
-
-  const handleSaveUserAssignment = () => {
-    setPurchasedItems(updatedPurchasedItems)
-    console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
-  }
-
-  const handleCalculate = () =>  {
-    let userTotals = {}
-
-    for (let item of purchasedItems) {
-      const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
-      if (item.user in userTotals) {
-        userTotals[item.user].subtotal = userTotals[item.user].subtotal + itemPrice;
-      } else { // Initialize
-        userTotals[item.user] = {
-        subtotal: itemPrice,
-        };
-      }
-      // TODO: add prop with array of purchased items by user
-      userTotals[item.user].tax = (userTotals[item.user].subtotal * taxRate).toFixed(2);
-      let subtotalWithTax = userTotals[item.user].subtotal * (1 + taxRate);
-
-      userTotals[item.user].tip = (subtotalWithTax *  tipRate).toFixed(2);
-      userTotals[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
-
-    }
-    setUserTotals(userTotals);
-  }
-
-  if (userTotals !== null) {
-    console.log('>>> Calculated userTotals :', Object.entries(userTotals));
-  }
 
   return (
     <>
-      <h1 className='text-3xl font-bold underline'>Action bar</h1>
-      <div name>
-        <input
-          style={{ border: "1px solid black" }}
-          type='file'
-          onChange={onFileChange}
-        />
-        <button className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-1 rounded' onClick={onFileUpload}>
-          Upload!
-        </button>
-      </div>
-      <div>
-        {/* <button
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          onClick={() => setAssignModalOn(true)}
-        >
-          Assign Person
-        </button> */}
-        <button
-          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          onClick={handleSaveUserAssignment}
-        >
-          Save User Assignment
-        </button>
-        <button
-          className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
-          onClick={handleCalculate}
-        >
-          calculate
-        </button>
-      </div>
-
-
+      <ActionBar
+        purchasedItems={purchasedItems}
+        setPurchasedItems={setPurchasedItems}
+        updatedPurchasedItems={updatedPurchasedItems}
+        setUpdatedPurchasedItems={setUpdatedPurchasedItems}
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        setReceiptInfo={setReceiptInfo}
+        taxRate={taxRate}
+        setTaxRate={setTaxRate}
+        tipRate={tipRate}
+        setTipRate={setTipRate}
+        selectedFile={selectedFile}
+        onFileChange={onFileChange}
+      />
 
       {receiptInfo && (
-        <>
+        <div className='ReceiptInfoContainer'>
           <h1 className='text-3xl font-bold underline'>Purchased Items</h1>
           <h1>-------------</h1>
           {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
@@ -188,29 +71,27 @@ function App() {
           <h3>{`Total Tax: ${receiptInfo["Total Tax"]}`}</h3>
           {taxRate && <h3>{`Calculated Tax: ${taxRate}`}</h3>}
           <h3>{`Tip: ${receiptInfo["Tip"]}`}</h3>
-           {tipRate && <h3>{`Calculated Tip: ${tipRate}`}</h3>}
+          {tipRate && <h3>{`Calculated Tip: ${tipRate}`}</h3>}
           <h3>{`TODO: User can enter tip amount`}</h3>
           <h1>-------------</h1>
-        </>
+        </div>
       )}
 
+      <div className='PurchasedItemsContainer'>
+        <ItemsTable
+          purchasedItems={purchasedItems}
+          updatedPurchasedItems={updatedPurchasedItems}
+          setUpdatedPurchasedItems={setUpdatedPurchasedItems}
+          selected={selected}
+          setSelected={setSelected}
+        />
+      </div>
 
-
-
-
-
-      <ItemsTable
-        purchasedItems={purchasedItems}
-        updatedPurchasedItems={updatedPurchasedItems}
-        setUpdatedPurchasedItems={setUpdatedPurchasedItems}
-        selected={selected}
-        setSelected={setSelected}
-      />
 
       <h1 className='text-3xl font-bold underline'>User Totals</h1>
       <h3>Totals</h3>
 
-      <div>
+      <div className='UserInfoListContainer'>
         <UserInfoList/>
       </div>
 
