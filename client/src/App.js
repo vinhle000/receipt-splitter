@@ -45,6 +45,7 @@ function App() {
 
   return (
     <>
+    <div className='TopBarContainer  flex justify-between md:container md:mx-auto ' >
       <ActionBar
         purchasedItems={purchasedItems}
         setPurchasedItems={setPurchasedItems}
@@ -62,22 +63,21 @@ function App() {
       />
 
       {receiptInfo && (
-        <div className='ReceiptInfoContainer'>
-          <h1 className='text-3xl font-bold underline'>Purchased Items</h1>
-          <h1>-------------</h1>
+        <div className='ReceiptInfoContainer text-r font-medium text-black '>
+          <h1 className='text-xl font-bold underline'>Receipt Info</h1>
           {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
           <h2>{`Total: ${receiptInfo.Total}`}</h2>
           <h3>{`Subtotal: ${receiptInfo.Subtotal}`}</h3>
           <h3>{`Total Tax: ${receiptInfo["Total Tax"]}`}</h3>
-          {taxRate && <h3>{`Calculated Tax: ${taxRate}`}</h3>}
-          <h3>{`Tip: ${receiptInfo["Tip"]}`}</h3>
-          {tipRate && <h3>{`Calculated Tip: ${tipRate}`}</h3>}
-          <h3>{`TODO: User can enter tip amount`}</h3>
-          <h1>-------------</h1>
+          <h3>{`Tip: ${receiptInfo["Tip"]}`}</h3> <textField></textField>
+          {taxRate && <h3>{`Estimated Tax: ${taxRate}`}</h3>}
+          {tipRate && <h3>{`Estimated Tip: ${tipRate}`}</h3>}
         </div>
       )}
+    </div>
 
-      <div className='PurchasedItemsContainer'>
+
+      <div className='PurchasedItemsContainer text-r md:container md:mx-auto px-8'>
         <ItemsTable
           purchasedItems={purchasedItems}
           updatedPurchasedItems={updatedPurchasedItems}
@@ -87,24 +87,10 @@ function App() {
         />
       </div>
 
-
       <h1 className='text-3xl font-bold underline'>User Totals</h1>
-      <h3>Totals</h3>
-
       <div className='UserInfoListContainer'>
-        <UserInfoList/>
+        <UserInfoList userInfo={userInfo}/>
       </div>
-
-
-
-{/*
-      {isAssignPersonModalOn &&
-        <AssignModal
-          setAssignModalOn={setAssignModalOn}
-          assignee={assignee}
-          setAssignee={setAssignee}
-          assignPersonToSelectedItems={assignPersonToSelectedItems}
-        />} */}
 
       </>
 

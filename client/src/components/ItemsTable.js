@@ -77,7 +77,7 @@ const headCells = [
 
   function PurchasedItemsTabledHead({numSelected, rowCount}) {
   return (
-    <TableHead>
+    <TableHead >
       {/* <TableCell padding="checkbox">
         <Checkbox
           indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -90,6 +90,8 @@ const headCells = [
       </TableCell> */}
       {headCells.map((headCell) => (
         <TableCell
+          // class='class="p-2 whitespace-nowrap"'
+          class="text-s font-semibold uppercase text-gray-400 bg-gray-50 text-left"
           key={headCell.id}
           align={headCell.numeric ? 'right' : 'left'}
           padding={headCell.disabledPadding ? 'none' : 'normal'}
@@ -102,17 +104,21 @@ const headCells = [
 }
 
 
-function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedItems, selected, setSelected}) {
+function ItemsTable({
+  purchasedItems,
+  updatedPurchasedItems,
+  setUpdatedPurchasedItems,
+  selected,
+  setSelected}) {
 
 
   const handleTextFieldChange = (rowIndex, change) => {
     const updatedItems = updatedPurchasedItems;
     const username = change.fieldValue;
-    updatedItems[rowIndex][change.fieldName] = username.toUpperCase();
+    updatedItems[rowIndex][change.fieldName] = username;
 
     console.log('>>>>>> ROW updated to: ', updatedItems[rowIndex].user)
     setUpdatedPurchasedItems(updatedItems)
-
   }
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -145,11 +151,12 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
           numSelected={selected.length}
           rowCount={purchasedItems.length}
         />
-        <TableBody>
+        <TableBody class="text-sm divide-y divide-gray-100 ">
           {purchasedItems.map((row, index) => {
             const isItemSelected = isSelected(row.id);
             return (
               <TableRow
+              // class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"
                 hover
                 onClick={(event) => handleSelectedItem(event, row.id)}
                 role="checkbox"
@@ -174,14 +181,17 @@ function ItemsTable({purchasedItems, updatedPurchasedItems, setUpdatedPurchasedI
                   rowIndex={index}
                   handleTextFieldChange={handleTextFieldChange}
                 />
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                >
                   {row.description}
                 </TableCell>
                 {/* TODO: Either seperate price and quantity into individual items on server,
                  or handle here with a child list or some type of split button to make more items*/}
                 {/* <TableCell align="right">{row.price}</TableCell> */}
                 {/* <TableCell align="right">{row.quantity}</TableCell> */}
-                <TableCell align="left">{row.totalPrice}</TableCell>
+                <TableCell>{row.totalPrice}</TableCell>
 
               </TableRow>
             )

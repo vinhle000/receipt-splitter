@@ -17,10 +17,6 @@ function ActionBar ({
   setTipRate,
   selectedFile,
   onFileChange,
-
-
-
-  // handleCalculate,
 }) {
 
 
@@ -113,15 +109,14 @@ function ActionBar ({
     } else {
       return (
         <div className="mt-4">
-          <h4>Choose before pressing the Upload button</h4>
+          {/* <h4>Choose before pressing the Upload button</h4> */}
         </div>
       );
     }
   };
 
   return (
-    <div className='ActionBarContainer p-4'>
-      <h1 className='text-3xl font-bold underline mb-4'>Action bar</h1>
+    <div className='ActionBarContainer p-4  md:container md:mx-auto basis-04'>
 
       {/* File upload section */}
       <div className="mb-4">

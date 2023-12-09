@@ -7,16 +7,16 @@ import Typography from '@mui/material/Typography';
 
 import UserInfoCard from './UserInfoCard';
 
-function UserInfoList({userTotals, data}) {
+function UserInfoList({userInfo, data}) {
   let remainderTotalInfoCard = null;
 
   return (
-    <div>
+    <ul className='UserInfoListContainer'>
 
-      {userTotals && (
-        Object.entries(userTotals).map( (item, index) => {
+      {userInfo && (
+        Object.entries(userInfo).map( (item, index) => {
           if ( item[0] === '') {
-            remainderTotalInfoCard = <UserInfoCard username="Remaining Total" data={item[1]}/>
+            remainderTotalInfoCard = <UserInfoCard username="Remaining Total" data={item[1]} key={index}/>
           } else {
             return <UserInfoCard username={item[0]} data={item[1]} />
           }
@@ -25,7 +25,7 @@ function UserInfoList({userTotals, data}) {
       )}
       {remainderTotalInfoCard}
 
-    </div>
+    </ul>
   )
 }
 

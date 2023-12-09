@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
+import _ from 'lodash';
 
 function UserInfoCard({username, data}) {
 
@@ -12,16 +12,23 @@ function UserInfoCard({username, data}) {
 
     <Card variant="outlined">
       <CardContent>
-        <Typography variant="h5" component="div">{username}</Typography>
-        <Typography variant="body2">
-          Subtotal: {`$${data.subtotal}`}
-          <br />
-          Tax: {`$${data.tax}`}
-          <br />
-          Tip: {`$${data.tip}`}
-          <br />
-         </Typography>
-         <Typography variant="h7" component="div">  TOTAL: {`$${data.owedTotal}`} </Typography>
+
+        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-5">
+        <div className="p-8 flex">
+            <div className="pr-4 w-/10">
+              <p className="text-3xl font-bold">{username}</p>
+            </div>
+            <div>
+            <div className="uppercase tracking-wide text-sm text-indigo-500 ">Subtotal:
+              <text className="font-semibold">
+                {`$${data.subtotal}`}
+              </text>
+            </div>
+            <p className="mt-2 text-gray-500"> Tax: {`$${data.tax}`}</p>
+            <p className="mt-2 text-gray-500">Tip: {`$${data.tip}`}</p>
+            </div>
+        </div>
+        </div>
       </CardContent>
       {/* <CardActions>
         <Button size="small">Send Request</Button>
@@ -31,3 +38,4 @@ function UserInfoCard({username, data}) {
 }
 
 export default UserInfoCard;
+
