@@ -1,107 +1,8 @@
 import React from 'react';
-import {useState} from 'react'
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField'
-import Checkbox from '@mui/material/Checkbox';
-import Paper from '@mui/material/Paper'
+import { useState } from 'react'
 import { uuid } from 'uuidv4';
 
 import EditableTableCell from './purchasedItemsTable/EditableTableCell';
-
-  /*TODO:
-  Create field to add users
-  -> User will be button
-      - When highlighted
-
-
-  Checkbox
-    -> Assign to item to user in table
-      -Clears selection
-
-  When selection is done, or when 'calculate' button is pressed
-    run throgh each item and
-    create a key value pair with User,
-      appending each item to that user
-
-    once gathering all items for each user
-
-    calculate the total for each user,
-      -Get subtotal / recieipt sub total
-
-    -> Apply tax and tip(if applicable)
-      -Get total / receipt total
-
-  */
-
-
-const headCells = [
-  {
-    id: 'user',
-    numeric: false,
-    disabledPadding: true,
-    label: 'Name',
-  },
-  {
-    id: 'description',
-    numeric: false,
-    disabledPadding: true,
-    label: 'Item',
-  },
-   // TODO: Decide to split the quantity into individual items on server. Or have it split in the UI?
-  // {
-  //   id: 'price',
-  //   numeric: true,
-  //   disabledPadding: true,
-  //   label: 'Price',
-  // },
-  // {
-  //   id: 'quantity',
-  //   numeric: true,
-  //   disabledPadding: true,
-  //   label: 'Quantity',
-  // },
-  {
-    id: 'totalPrice',
-    numeric: false,
-    disabledPadding: true,
-    label: 'Price',
-  },
-
-];
-
-
-  function PurchasedItemsTabledHead({numSelected, rowCount}) {
-  return (
-    <TableHead >
-      {/* <TableCell padding="checkbox">
-        <Checkbox
-          indeterminate={numSelected > 0 && numSelected < rowCount}
-          checked={rowCount > 0 && numSelected === rowCount}
-          // onChange={onSelectedAllClick}?
-          inputProps={{
-            'aria-label': 'select all items',
-          }}
-        />
-      </TableCell> */}
-      {headCells.map((headCell) => (
-        <TableCell
-          // class='class="p-2 whitespace-nowrap"'
-          class="text-s font-semibold uppercase text-gray-400 bg-gray-50 text-left"
-          key={headCell.id}
-          align={headCell.numeric ? 'right' : 'left'}
-          padding={headCell.disabledPadding ? 'none' : 'normal'}
-        >
-          {headCell.label}
-        </TableCell>
-      ))}
-    </TableHead>
-  );
-}
 
 
 function ItemsTable({
@@ -109,101 +10,113 @@ function ItemsTable({
   updatedPurchasedItems,
   setUpdatedPurchasedItems,
   selected,
-  setSelected}) {
+  setSelected }) {
 
+  const [isEditing, setIsEditing] = useState(null);
 
-  const handleTextFieldChange = (rowIndex, change) => {
+  const setUsername = (newUsername, index) => {
     const updatedItems = updatedPurchasedItems;
-    const username = change.fieldValue;
-    updatedItems[rowIndex][change.fieldName] = username;
-
-    console.log('>>>>>> ROW updated to: ', updatedItems[rowIndex].user)
+    updatedItems[index].user = newUsername;
     setUpdatedPurchasedItems(updatedItems)
   }
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  // const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const handleSelectedItem = (event, id) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
+  // const handleSelectedItem = (event, id) => {
+  //   const selectedIndex = selected.indexOf(id);
+  //   let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if ( selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1))
-    } else if ( selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      )
-    };
-    setSelected(newSelected);
-    // console.log('>>>> selected:',  selected);
-    // console.log('>>>> NEW selected:',  newSelected);
-  }
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, id);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1))
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(
+  //       selected.slice(0, selectedIndex),
+  //       selected.slice(selectedIndex + 1),
+  //     )
+  //   };
+  //   setSelected(newSelected);
+  //   // console.log('>>>> selected:',  selected);
+  //   // console.log('>>>> NEW selected:',  newSelected);
+  // }
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <PurchasedItemsTabledHead
-          numSelected={selected.length}
-          rowCount={purchasedItems.length}
-        />
-        <TableBody class="text-sm divide-y divide-gray-100 ">
-          {purchasedItems.map((row, index) => {
-            const isItemSelected = isSelected(row.id);
-            return (
-              <TableRow
-              // class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"
-                hover
-                onClick={(event) => handleSelectedItem(event, row.id)}
-                role="checkbox"
-                aria-checked={isItemSelected}
-                tabIndex={-1}
-                // key={row.description}
-                selected={isItemSelected}
-                sx={{ cursor: 'pointer' }}
-              >
-                {/* <TableCell padding="checkbox">
-                  <Checkbox
-                    color="primary"
-                    checked={isItemSelected}
-                    // inputProps={{
-                    //   'aria-lablelledby': labelId,
-                    // }}
-                  />
-                </TableCell> */}
-                <EditableTableCell
-                  row={row}
-                  fieldName="user"
-                  rowIndex={index}
-                  handleTextFieldChange={handleTextFieldChange}
-                />
-                <TableCell
-                  component="th"
-                  scope="row"
-                >
-                  {row.description}
-                </TableCell>
-                {/* TODO: Either seperate price and quantity into individual items on server,
-                 or handle here with a child list or some type of split button to make more items*/}
-                {/* <TableCell align="right">{row.price}</TableCell> */}
-                {/* <TableCell align="right">{row.quantity}</TableCell> */}
-                <TableCell>{row.totalPrice}</TableCell>
+    <div className="px-4 sm:px-6 lg:px-8">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="text-base font-semibold leading-6 text-gray-900">Purchased Items</h1>
+        </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+          <button
+            type="button"
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Add Item
+          </button>
+        </div>
+      </div>
+      <div className="mt-8 flow-root">
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table className="min-w-full divide-y divide-gray-300">
+              <thead>
+                <tr>
+                  <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Item
+                  </th>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                    Price
+                  </th>
+                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
+                    <span className="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white">
+              {purchasedItems.map((item,index) => (
+                  <tr key={index} className="even:bg-gray-50">
 
-              </TableRow>
-            )
-            })
-          }
-
-        </TableBody>
-      </Table>
-    </TableContainer>
+                    <td
+                      contentEditable={isEditing === index}
+                      onClick={() => setIsEditing(index)}
+                      onBlur={(e) => {
+                        setIsEditing(null)
+                        setUsername(e.target.textContent, index)
+                      }}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          setIsEditing(null);
+                        }
+                      }}
+                      className={`whitespace-nowrap px-3 py-4 text-sm text-gray-500 ${isEditing === index ? 'border-2 border-blue-500 bg-blue-100' : ''}`}
+                    >
+                      {item.username}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.description}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.totalPrice}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
+                      <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                        Edit<span className="sr-only">, {item.user}</span>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   )
+
 }
 
 
 export default ItemsTable;
-

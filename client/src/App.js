@@ -10,6 +10,7 @@ import testDataSample from "./extractedProcessBevetts.json";
 import AssignModal from './components/AssignModal';
 import UserInfoList from './components/userInfoList/UserInfoList';
 import ActionBar from './components/ActionBar';
+import ReceiptStats from './components/ReceiptStats';
 //styled components:
 
 
@@ -62,7 +63,7 @@ function App() {
         onFileChange={onFileChange}
       />
 
-      {receiptInfo && (
+      {/* {receiptInfo && (
         <div className='ReceiptInfoContainer text-r font-medium text-black '>
           <h1 className='text-xl font-bold underline'>Receipt Info</h1>
           {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
@@ -73,9 +74,17 @@ function App() {
           {taxRate && <h3>{`Estimated Tax: ${taxRate}`}</h3>}
           {tipRate && <h3>{`Estimated Tip: ${tipRate}`}</h3>}
         </div>
-      )}
-    </div>
+      )} */}
 
+
+
+
+    </div>
+    {receiptInfo && (
+        <ReceiptStats
+          receiptInfo={receiptInfo}
+        />
+      )}
 
       <div className='PurchasedItemsContainer text-r md:container md:mx-auto px-8'>
         <ItemsTable
