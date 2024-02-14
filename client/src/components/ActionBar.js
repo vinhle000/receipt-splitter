@@ -1,9 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BiReceipt } from "react-icons/bi";
 
-
-
-function ActionBar ({
+function ActionBar({
   purchasedItems,
   setPurchasedItems,
   updatedPurchasedItems,
@@ -18,35 +17,8 @@ function ActionBar ({
   selectedFile,
   onFileChange,
 }) {
-
-
-  const handleCalculate = async () =>  {
-    setPurchasedItems(updatedPurchasedItems)
-    console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
-    let userInfo = {}
-
-    for (let item of purchasedItems) {
-      const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
-      if (item.user in userInfo) {
-        userInfo[item.user].subtotal = userInfo[item.user].subtotal + itemPrice;
-      } else { // Initialize
-        userInfo[item.user] = {
-        subtotal: itemPrice,
-        };
-      }
-      // TODO: add prop with array of purchased items by user
-      userInfo[item.user].tax = (userInfo[item.user].subtotal * taxRate).toFixed(2);
-      let subtotalWithTax = userInfo[item.user].subtotal * (1 + taxRate);
-
-      userInfo[item.user].tip = (subtotalWithTax *  tipRate).toFixed(2);
-      userInfo[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
-
-    }
-    setUserInfo(userInfo);
-  }
-
   if (userInfo !== null) {
-    console.log('>>> Calculated userInfo :', Object.entries(userInfo));
+    console.log(">>> Calculated userInfo :", Object.entries(userInfo));
   }
 
   // Upload File //
@@ -62,19 +34,22 @@ function ActionBar ({
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then((res) => {
-        console.log("Response Success status: ", JSON.stringify(res.data, null, 2));
+        console.log(
+          "Response Success status: ",
+          JSON.stringify(res.data, null, 2),
+        );
         setReceiptInfo(res.data);
         setPurchasedItems(res.data.purchasedItems);
         setUpdatedPurchasedItems(res.data.purchasedItems);
 
-         // calculate tax and tip to add to owedTotal
-        const subtotal = Number(res.data['Subtotal'].slice(1));
-        const total = Number(res.data['Total'].slice(1));
+        // calculate tax and tip to add to owedTotal
+        const subtotal = Number(res.data["Subtotal"].slice(1));
+        const total = Number(res.data["Total"].slice(1));
         // TODO: Move this process to the server side,
         // Butler has issues discerning between subtotals and Total of the receipt
-          // Flip them if Subtotals is greater than Totals,
-            // Assign Totals = Subtotals
-            // and Subtotals = Totals
+        // Flip them if Subtotals is greater than Totals,
+        // Assign Totals = Subtotals
+        // and Subtotals = Totals
         // Maybe in the server, add the calculated fields to the extracted and process/formatted receipt info
         // {
         //   calculated:{
@@ -84,8 +59,8 @@ function ActionBar ({
         //   }
         // }
 
-        let taxRate = (total - subtotal) / total
-        console.log(' tax rate is >>> ', taxRate)
+        let taxRate = (total - subtotal) / total;
+        console.log(" tax rate is >>> ", taxRate);
 
         // TODO: tipRate
         // const total = Number(res.data.Total.slice(1));
@@ -93,9 +68,9 @@ function ActionBar ({
         // let tipRate = tipAmount / total;
         // console.log(' tax rate is >>> ', taxRate)
         // NOTE: Could place tip rate or tip amount field to calculate
-        let tipRate = 0.20 // percentage TODO: create input field for user
+        let tipRate = 0.2; // percentage TODO: create input field for user
 
-        setTaxRate(taxRate)
+        setTaxRate(taxRate);
         setTipRate(tipRate);
       })
       .catch((error) => {
@@ -116,37 +91,57 @@ function ActionBar ({
   };
 
   return (
-    <div className='ActionBarContainer p-4  md:container md:mx-auto basis-04'>
+    <div className="ActionBarContainer flex items-center justify-between p-4 text-black md:container md:mx-auto px-8 ">
+      <div>
+        {/* <h1 className="text-2xl font-bold">Logo</h1> */}
+        <BiReceipt className="text-4xl text-indigo-600" />
+      </div>
 
       {/* File upload section */}
-      <div className="mb-4">
+      <div className="flex items-center">
         <input
-          className="border p-1 mr-2"
-          type='file'
+          id="file-upload"
+          className="hidden"
+          type="file"
           onChange={onFileChange}
+          aria-describedby="file-upload-help" // For Accessibility improvements
         />
-        <button className='bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-1 rounded' onClick={onFileUpload}>
-          Upload!
-        </button>
-      </div>
-
-      {/* File details section */}
-      <div className="mb-4">
-        {fileData()}
-      </div>
-
-      {/* Calculate button section */}
-      <div>
-        <button
-          className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
-          onClick={handleCalculate}
+        <label
+          htmlFor="file-upload"
+          className="cursor-pointer bg-gray-200 hover:bg-gray-300 p-2 rounded transition-colors duration-150 ease-in-out"
         >
-          Calculate
+          <span className="flex items-center">
+            <svg
+              className="w-4 h-4 mr-2"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {" "}
+              {/* SVG for visual aid */}
+              <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2m-1.5-4.5l-1.5 1.5m-5-5L12 6m0 0l3 3m-3-3L9 9m12 3h-6m6 0a9 9 0 0 1-18 0m18 0a9 9 0 0 0-18 0"></path>
+            </svg>
+            Select file
+          </span>
+        </label>
+        <button
+          className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={onFileUpload}
+        >
+          Scan file
         </button>
+        <span id="file-upload-help" className="text-xs text-gray-600 ml-2">
+          No file chosen
+        </span>{" "}
+        {/* For Accessibility improvements */}
       </div>
-    </div>
-  )
-}
 
+      <div className="ml-4 flex items-center">{fileData()}</div>
+    </div>
+  );
+}
 
 export default ActionBar;

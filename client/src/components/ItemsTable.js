@@ -2,15 +2,17 @@ import React from 'react';
 import { useState } from 'react'
 import { uuid } from 'uuidv4';
 
-import EditableTableCell from './purchasedItemsTable/EditableTableCell';
-
 
 function ItemsTable({
   purchasedItems,
   updatedPurchasedItems,
   setUpdatedPurchasedItems,
   selected,
-  setSelected }) {
+  setSelected,
+  setPurchasedItems,
+  taxRate,
+  tipRate,
+  setUserInfo,}) {
 
   const [isEditing, setIsEditing] = useState(null);
 
@@ -20,28 +22,31 @@ function ItemsTable({
     setUpdatedPurchasedItems(updatedItems)
   }
 
-  // const isSelected = (name) => selected.indexOf(name) !== -1;
+  const handleCalculate = async () =>  {
+    setPurchasedItems(updatedPurchasedItems)
+    console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
+    let userInfo = {}
 
-  // const handleSelectedItem = (event, id) => {
-  //   const selectedIndex = selected.indexOf(id);
-  //   let newSelected = [];
+    for (let item of purchasedItems) {
+      const itemPrice = Number(item.totalPrice.slice(1)) // remove $ sign
+      if (item.user in userInfo) {
+        userInfo[item.user].subtotal = userInfo[item.user].subtotal + itemPrice;
+      } else { // Initialize
+        userInfo[item.user] = {
+        subtotal: itemPrice,
+        };
+      }
+      // TODO: add prop with array of purchased items by user
+      userInfo[item.user].tax = (userInfo[item.user].subtotal * taxRate).toFixed(2);
+      let subtotalWithTax = userInfo[item.user].subtotal * (1 + taxRate);
 
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1))
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1),
-  //     )
-  //   };
-  //   setSelected(newSelected);
-  //   // console.log('>>>> selected:',  selected);
-  //   // console.log('>>>> NEW selected:',  newSelected);
-  // }
+      userInfo[item.user].tip = (subtotalWithTax *  tipRate).toFixed(2);
+      userInfo[item.user].owedTotal = (subtotalWithTax * (1 + tipRate)).toFixed(2);
+
+    }
+    setUserInfo(userInfo);
+  }
+
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -57,6 +62,16 @@ function ItemsTable({
             Add Item
           </button>
         </div>
+        <div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-none">
+          <button
+            type="button"
+            onClick={handleCalculate}
+            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Calculate
+          </button>
+        </div>
+
       </div>
       <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

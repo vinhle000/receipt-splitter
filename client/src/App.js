@@ -11,9 +11,11 @@ import AssignModal from './components/AssignModal';
 import UserInfoList from './components/userInfoList/UserInfoList';
 import ActionBar from './components/ActionBar';
 import ReceiptStats from './components/ReceiptStats';
-//styled components:
 
 
+//TODO 2.13.24
+// Keep original state of receipt info, and then use it to reset/default all values,
+// Will provide a reset without making a new request to the Butler API for another scan
 
 
 function App() {
@@ -24,8 +26,7 @@ function App() {
   const [isAssignPersonModalOn, setAssignModalOn] =
     useState(false);
 
-  const [assignee, setAssignee] = useState('');
-  // const [selectionModel, setSelectionModel] = useState();
+
   const [userInfo, setUserInfo] = useState(null);
   const [selected, setSelected] = useState([]);
   const [tipRate, setTipRate] = useState(.18); //Maybe add tip percentage as an option
@@ -46,7 +47,7 @@ function App() {
 
   return (
     <>
-    <div className='TopBarContainer  flex justify-between md:container md:mx-auto ' >
+    <div className='TopBarContainer  flex justify-between md:container md:mx-auto px-8 ' >
       <ActionBar
         purchasedItems={purchasedItems}
         setPurchasedItems={setPurchasedItems}
@@ -62,19 +63,6 @@ function App() {
         selectedFile={selectedFile}
         onFileChange={onFileChange}
       />
-
-      {/* {receiptInfo && (
-        <div className='ReceiptInfoContainer text-r font-medium text-black '>
-          <h1 className='text-xl font-bold underline'>Receipt Info</h1>
-          {receiptInfo["Merchant Name"].length > 0 && <h1>{receiptInfo["Merchant Name"]}</h1>}
-          <h2>{`Total: ${receiptInfo.Total}`}</h2>
-          <h3>{`Subtotal: ${receiptInfo.Subtotal}`}</h3>
-          <h3>{`Total Tax: ${receiptInfo["Total Tax"]}`}</h3>
-          <h3>{`Tip: ${receiptInfo["Tip"]}`}</h3> <textField></textField>
-          {taxRate && <h3>{`Estimated Tax: ${taxRate}`}</h3>}
-          {tipRate && <h3>{`Estimated Tip: ${tipRate}`}</h3>}
-        </div>
-      )} */}
 
 
 
@@ -93,6 +81,11 @@ function App() {
           setUpdatedPurchasedItems={setUpdatedPurchasedItems}
           selected={selected}
           setSelected={setSelected}
+          setPurchasedItems={setPurchasedItems}
+          taxRate={taxRate}
+          tipRate={tipRate}
+          setUserInfo={setUserInfo}
+
         />
       </div>
 
