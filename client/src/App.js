@@ -47,7 +47,7 @@ function App() {
 
   return (
     <>
-    <div className='TopBarContainer  flex justify-between md:container md:mx-auto px-8 ' >
+    <div className='TopBarContainer  flex justify-between md:container md:mx-auto px-4 ' >
       <ActionBar
         purchasedItems={purchasedItems}
         setPurchasedItems={setPurchasedItems}
@@ -74,7 +74,7 @@ function App() {
         />
       )}
 
-      <div className='PurchasedItemsContainer text-r md:container md:mx-auto px-8'>
+      <div className='PurchasedItemsContainer text-r md:container md:mx-auto px-4 pb-10'>
         <ItemsTable
           purchasedItems={purchasedItems}
           updatedPurchasedItems={updatedPurchasedItems}
@@ -89,11 +89,14 @@ function App() {
         />
       </div>
 
-      <h1 className='text-3xl font-bold underline'>User Totals</h1>
+      {/* <h1 className='text-3xl font-bold underline'>User Totals</h1>
       <div className='UserInfoListContainer'>
         <UserInfoList userInfo={userInfo}/>
-      </div>
+      </div> */}
 
+      <div className='PurchasedItemsContainer text-r md:container md:mx-auto px-4 pb-10'>
+       <UserInfoList userInfo={userInfo}/>
+      </div>
       </>
 
   );

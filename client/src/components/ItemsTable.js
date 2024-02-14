@@ -24,7 +24,6 @@ function ItemsTable({
 
   const handleCalculate = async () =>  {
     setPurchasedItems(updatedPurchasedItems)
-    console.log('UPDATED ITEMS >>>> ', updatedPurchasedItems)
     let userInfo = {}
 
     for (let item of purchasedItems) {
