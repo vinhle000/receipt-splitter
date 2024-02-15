@@ -46,8 +46,9 @@ function ItemsTable({
     setUserInfo(userInfo);
   }
 
-
+// className="col-span-1 divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md"
   return (
+  <div className="col-span-1 divide-y  divide-gray-200 rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md pt-6 pb-6">
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
@@ -128,6 +129,7 @@ function ItemsTable({
         </div>
       </div>
     </div>
+  </div>
   )
 
 }

@@ -16,10 +16,13 @@ function ActionBar({
   setTipRate,
   selectedFile,
   onFileChange,
+  handleResetToScannedReceiptInfo,
+
 }) {
   if (userInfo !== null) {
     console.log(">>> Calculated userInfo :", Object.entries(userInfo));
   }
+
 
   // Upload File //
   const onFileUpload = () => {
@@ -104,7 +107,6 @@ function ActionBar({
           className="hidden"
           type="file"
           onChange={onFileChange}
-          aria-describedby="file-upload-help" // For Accessibility improvements
         />
         <label
           htmlFor="file-upload"
@@ -138,8 +140,14 @@ function ActionBar({
         </span>{" "}
         {/* For Accessibility improvements */}
       </div>
-
       <div className="ml-4 flex items-center">{fileData()}</div>
+      <button
+          className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          onClick={handleResetToScannedReceiptInfo}
+        >
+          Reset
+        </button>
+
     </div>
   );
 }

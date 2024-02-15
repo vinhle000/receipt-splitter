@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import ItemsTable from "./components/ItemsTable";
-import UserInfoCard from "./components/userInfoList/UserInfoCard";
 import testDataSample from "./extractedProcessBevetts.json";
 
 import AssignModal from './components/AssignModal';
@@ -21,7 +20,9 @@ import ReceiptStats from './components/ReceiptStats';
 function App() {
   const [selectedFile, setSelectedFile] = useState();
   const [orderedItems, setOrderedItems] = useState();
+  const [scannedReceiptInfo, setScannedReceiptInfo] = useState(testDataSample);
   const [receiptInfo, setReceiptInfo] = useState(testDataSample);
+  // const [scannedReceiptInfo, setScannedReceiptInfo] = useState();
   // const [receiptInfo, setReceiptInfo] = useState();
   const [isAssignPersonModalOn, setAssignModalOn] =
     useState(false);
@@ -44,6 +45,11 @@ function App() {
 
 
 
+  const handleResetToScannedReceiptInfo = () => {
+    setReceiptInfo(scannedReceiptInfo);
+  };
+
+
 
   return (
     <>
@@ -62,6 +68,7 @@ function App() {
         setTipRate={setTipRate}
         selectedFile={selectedFile}
         onFileChange={onFileChange}
+        handleResetToScannedReceiptInfo={handleResetToScannedReceiptInfo}
       />
 
 
